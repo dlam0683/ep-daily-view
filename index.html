@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>EP Daily View</title>
   <meta name="robots" content="noindex, nofollow">
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
@@ -13,71 +13,164 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Daily View">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#1F3864">
   <style>
-    :root { color-scheme: light; }
+    :root { color-scheme: dark; }
     html, body {
       margin: 0;
-      min-height: 100%;
-      background: #ffffff;
-      color: #202124;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      height: 100dvh;
+      background: #1F3864;
+      color: #fff;
       font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
+    #wrap {
+      position: fixed;
+      inset: 0;
+      padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+      box-sizing: border-box;
+      background: #1F3864;
+    }
+    #frame {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      background: #1F3864;
+    }
+    #loading, #fallback {
+      position: fixed;
+      left: 0;
+      right: 0;
+      z-index: 2;
+      box-sizing: border-box;
+      padding: 16px 20px;
+      padding-left: calc(20px + env(safe-area-inset-left));
+      padding-right: calc(20px + env(safe-area-inset-right));
       text-align: center;
     }
-    body {
+    #loading {
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      letter-spacing: 0.02em;
+      color: rgba(255,255,255,.88);
+    }
+    #fallback {
+      bottom: 0;
+      padding-bottom: calc(20px + env(safe-area-inset-bottom));
+      background: rgba(31, 56, 100, 0.96);
+      border-top: 1px solid rgba(255,255,255,.18);
+    }
+    #fallback p {
+      margin: 0 0 12px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: #D9E2F3;
+    }
+    #fallback.blocked {
+      top: 0;
+      bottom: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      padding: 32px 24px;
-      box-sizing: border-box;
+      padding-top: calc(32px + env(safe-area-inset-top));
+      background: #1F3864;
+      border-top: 0;
     }
-    img.logo {
-      width: 120px;
-      height: 120px;
-      border-radius: 24px;
-      border: 1px solid #e6e6e6;
-    }
-    h1 {
-      margin: 20px 0 8px;
-      font-size: 22px;
-      letter-spacing: 0.02em;
-    }
-    p { margin: 0 0 12px; line-height: 1.45; max-width: 22em; color: #343638; }
     .btn {
       display: inline-block;
-      margin-top: 12px;
       padding: 12px 22px;
-      background: #202124;
-      color: #fff;
+      background: #D9E2F3;
+      color: #1F3864;
       text-decoration: none;
       border-radius: 8px;
       font-weight: bold;
     }
-    .hint { font-size: 14px; color: #5f6368; }
+    #fallback[hidden], #loading[hidden] { display: none !important; }
   </style>
   <script>
     (function () {
-      var appUrl = "https://script.google.com/macros/s/AKfycby4PNnqwViiprAyqC-U8HXJkxS1oofaZw11E5moLLoZhTvwSwZe-rwJM42b9jgGGK9g/exec";
-      var standalone = window.navigator.standalone === true ||
-        (window.matchMedia && (
-          window.matchMedia("(display-mode: standalone)").matches ||
-          window.matchMedia("(display-mode: fullscreen)").matches ||
-          window.matchMedia("(display-mode: minimal-ui)").matches
-        ));
-      if (standalone) {
-        location.replace(appUrl);
+      var APP_URL = "https://script.google.com/macros/s/AKfycby4PNnqwViiprAyqC-U8HXJkxS1oofaZw11E5moLLoZhTvwSwZe-rwJM42b9jgGGK9g/exec";
+      if (/(?:^|[?&])direct=1(?:&|$)/.test(location.search)) {
+        location.replace(APP_URL);
       }
     })();
   </script>
 </head>
 <body>
-  <img class="logo" src="apple-touch-icon.png" width="180" height="180" alt="Economos Properties">
-  <h1>EP Daily View</h1>
-  <p>Add this page to your Home Screen in Safari, then open it from the icon to load Daily View.</p>
-  <p class="hint">Tap Share, then Add to Home Screen, and keep Open as Web App on.</p>
-  <a class="btn" href="https://script.google.com/macros/s/AKfycby4PNnqwViiprAyqC-U8HXJkxS1oofaZw11E5moLLoZhTvwSwZe-rwJM42b9jgGGK9g/exec">Open Daily View</a>
+  <div id="wrap">
+    <iframe id="frame" title="Daily View"
+      src="https://script.google.com/macros/s/AKfycby4PNnqwViiprAyqC-U8HXJkxS1oofaZw11E5moLLoZhTvwSwZe-rwJM42b9jgGGK9g/exec"
+      allow="fullscreen; clipboard-write"
+      referrerpolicy="strict-origin-when-cross-origin"></iframe>
+  </div>
+  <div id="loading">Loading Daily View…</div>
+  <div id="fallback" hidden>
+    <p>Daily View didn’t load here. If you aren’t signed in to Google, open it directly.</p>
+    <a class="btn" id="openDirect" href="https://script.google.com/macros/s/AKfycby4PNnqwViiprAyqC-U8HXJkxS1oofaZw11E5moLLoZhTvwSwZe-rwJM42b9jgGGK9g/exec" target="_top">Open Daily View</a>
+  </div>
+  <script>
+    (function () {
+      var APP_URL = "https://script.google.com/macros/s/AKfycby4PNnqwViiprAyqC-U8HXJkxS1oofaZw11E5moLLoZhTvwSwZe-rwJM42b9jgGGK9g/exec";
+      if (/(?:^|[?&])direct=1(?:&|$)/.test(location.search)) return;
+
+      var loading = document.getElementById('loading');
+      var fallback = document.getElementById('fallback');
+      var frame = document.getElementById('frame');
+      var ready = false;
+      var timer = setTimeout(function () { showFallback(false); }, 15000);
+
+      function hideLoading() {
+        if (loading) loading.hidden = true;
+      }
+      function showFallback(blocked) {
+        if (ready) return;
+        hideLoading();
+        if (!fallback) return;
+        fallback.hidden = false;
+        if (blocked) fallback.classList.add('blocked');
+      }
+      function showOk() {
+        ready = true;
+        clearTimeout(timer);
+        hideLoading();
+        if (fallback) {
+          fallback.hidden = true;
+          fallback.classList.remove('blocked');
+        }
+      }
+      function isScriptOrigin(origin) {
+        if (origin === 'https://script.google.com') return true;
+        try {
+          var host = new URL(origin).hostname;
+          return /(?:^|\.)googleusercontent\.com$/.test(host);
+        } catch (e) {
+          return false;
+        }
+      }
+
+      window.addEventListener('message', function (e) {
+        if (!isScriptOrigin(e.origin)) return;
+        var data = e.data;
+        if (!data || data.source !== 'ep-daily-view') return;
+        if (data.status === 'ok') showOk();
+        else if (data.status === 'denied') showFallback(true);
+      });
+
+      if (frame) {
+        frame.addEventListener('load', hideLoading);
+      }
+      document.getElementById('openDirect').addEventListener('click', function (e) {
+        e.preventDefault();
+        window.top.location.href = APP_URL;
+      });
+    })();
+  </script>
 </body>
 </html>
