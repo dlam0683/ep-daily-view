@@ -124,7 +124,7 @@
       var fallback = document.getElementById('fallback');
       var frame = document.getElementById('frame');
       var ready = false;
-      var timer = setTimeout(function () { showFallback(false); }, 15000);
+      var timer = setTimeout(function () { if (!ready) window.top.location.replace(APP_URL); }, 10000);
 
       function hideLoading() {
         if (loading) loading.hidden = true;
@@ -160,7 +160,7 @@
         var data = e.data;
         if (!data || data.source !== 'ep-daily-view') return;
         if (data.status === 'ok') showOk();
-        else if (data.status === 'denied') showFallback(true);
+        else if (data.status === 'denied') window.top.location.replace(APP_URL);
       });
 
       if (frame) {
